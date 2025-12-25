@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Search - SkillConnect</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>Teacher Portal</h1>
+            <button class="back-btn" onclick="window.location.href='index.html'">← Back to Home</button>
+        </header>
+
+        <div class="dashboard-content">
+            <section class="search-section">
+                <h2>Search Students by Skills</h2>
+                <p>Find students with specific skills for your projects or events</p>
+
+                <form id="searchForm" class="form">
+                    <div class="form-group">
+                        <label for="searchSkills">Select Required Skills</label>
+                        <select id="searchSkills" name="searchSkills" multiple required>
+                            <option value="HTML">HTML</option>
+                            <option value="CSS">CSS</option>
+                            <option value="JavaScript">JavaScript</option>
+                            <option value="React">React</option>
+                            <option value="Node.js">Node.js</option>
+                            <option value="Python">Python</option>
+                            <option value="Java">Java</option>
+                            <option value="C++">C++</option>
+                            <option value="Flutter">Flutter</option>
+                            <option value="AI/ML">AI/ML</option>
+                            <option value="Data Science">Data Science</option>
+                            <option value="MongoDB">MongoDB</option>
+                            <option value="SQL">SQL</option>
+                            <option value="UI/UX Design">UI/UX Design</option>
+                            <option value="Graphic Design">Graphic Design</option>
+                        </select>
+                        <small>Hold Ctrl (or Cmd) to select multiple skills</small>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Search Students</button>
+                </form>
+            </section>
+
+            <section class="matches-section">
+                <h3>Search Results</h3>
+                <div id="searchResults" class="student-grid">
+                    <p class="info-text">Select skills and click search to find students</p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="teacher-search.js"></script>
+</body>
+</html>

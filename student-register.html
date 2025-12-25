@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration - SkillConnect</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <h1 class="title">Student Registration</h1>
+            <p class="description">Fill in your details to register</p>
+            
+            <form id="registerForm" class="form">
+                <div class="form-group">
+                    <label for="name">Student Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="college">College Name</label>
+                    <input type="text" id="college" name="college" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="year">Year</label>
+                    <select id="year" name="year" required>
+                        <option value="">Select Year</option>
+                        <option value="1">1st Year</option>
+                        <option value="2">2nd Year</option>
+                        <option value="3">3rd Year</option>
+                        <option value="4">4th Year</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="branch">Branch</label>
+                    <select id="branch" name="branch" required>
+                        <option value="">Select Branch</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Information Technology">Information Technology</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Electrical">Electrical</option>
+                        <option value="Mechanical">Mechanical</option>
+                        <option value="Civil">Civil</option>
+                        <option value="Chemical">Chemical</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="knownSkills">Known Skills</label>
+                    <select id="knownSkills" name="knownSkills" multiple required>
+                        <option value="HTML">HTML</option>
+                        <option value="CSS">CSS</option>
+                        <option value="JavaScript">JavaScript</option>
+                        <option value="React">React</option>
+                        <option value="Node.js">Node.js</option>
+                        <option value="Python">Python</option>
+                        <option value="Java">Java</option>
+                        <option value="C++">C++</option>
+                        <option value="Flutter">Flutter</option>
+                        <option value="AI/ML">AI/ML</option>
+                        <option value="Data Science">Data Science</option>
+                        <option value="MongoDB">MongoDB</option>
+                        <option value="SQL">SQL</option>
+                        <option value="UI/UX Design">UI/UX Design</option>
+                        <option value="Graphic Design">Graphic Design</option>
+                    </select>
+                    <small>Hold Ctrl (or Cmd) to select multiple skills</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="learningSkills">Learning Skills</label>
+                    <select id="learningSkills" name="learningSkills" multiple required>
+                        <option value="HTML">HTML</option>
+                        <option value="CSS">CSS</option>
+                        <option value="JavaScript">JavaScript</option>
+                        <option value="React">React</option>
+                        <option value="Node.js">Node.js</option>
+                        <option value="Python">Python</option>
+                        <option value="Java">Java</option>
+                        <option value="C++">C++</option>
+                        <option value="Flutter">Flutter</option>
+                        <option value="AI/ML">AI/ML</option>
+                        <option value="Data Science">Data Science</option>
+                        <option value="MongoDB">MongoDB</option>
+                        <option value="SQL">SQL</option>
+                        <option value="UI/UX Design">UI/UX Design</option>
+                        <option value="Graphic Design">Graphic Design</option>
+                    </select>
+                    <small>Hold Ctrl (or Cmd) to select multiple skills</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Set Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+            
+            <button class="back-btn" onclick="window.location.href='student-auth.html'">← Back</button>
+        </div>
+    </div>
+    
+    <script src="student-register.js"></script>
+</body>
+</html>

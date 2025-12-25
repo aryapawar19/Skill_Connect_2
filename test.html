@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Page - SkillConnect</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+            background: #f0f0f0;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 SkillConnect Test Page</h1>
+    
+    <div class="test-section">
+        <h2>1. Navigation Test</h2>
+        <p>Click these buttons to test navigation:</p>
+        <button onclick="window.location.href='index.html'">Go to Homepage</button>
+        <button onclick="window.location.href='student-auth.html'">Student Portal</button>
+        <button onclick="window.location.href='teacher-search.html'">Teacher Portal</button>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Server Connection Test</h2>
+        <p>Click to test if backend server is running:</p>
+        <button onclick="testServer()">Test Server Connection</button>
+        <div id="serverResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Database Test</h2>
+        <p>Click to test database with sample data:</p>
+        <button onclick="testDatabase()">Test Database</button>
+        <div id="dbResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Teacher Search Test</h2>
+        <p>Click to test teacher search functionality:</p>
+        <button onclick="testTeacherSearch()">Test Teacher Search</button>
+        <div id="teacherResult" class="result"></div>
+    </div>
+
+    <script>
+        function showResult(elementId, message, isSuccess = true) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'block';
+            element.style.background = isSuccess ? '#d4edda' : '#f8d7da';
+            element.style.color = isSuccess ? '#155724' : '#721c24';
+            element.innerHTML = message;
+        }
+
+        async function testServer() {
+            try {
+                const response = await fetch('http://localhost:3000');
+                if (response.ok) {
+                    showResult('serverResult', '✅ Server is running! Status: ' + response.status);
+                } else {
+                    showResult('serverResult', '⚠️ Server responded but with status: ' + response.status, false);
+                }
+            } catch (error) {
+                showResult('serverResult', '❌ Server is not running or not accessible. Error: ' + error.message, false);
+            }
+        }
+
+        async function testDatabase() {
+            try {
+                // Test if we can search students (which requires database)
+                const response = await fetch('http://localhost:3000/api/students/search?studentId=dummy');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showResult('dbResult', `✅ Database is working! Found ${data.length} students in database.`);
+                } else {
+                    showResult('dbResult', '❌ Database error: ' + data.message, false);
+                }
+            } catch (error) {
+                showResult('dbResult', '❌ Cannot connect to database. Error: ' + error.message, false);
+            }
+        }
+
+        async function testTeacherSearch() {
+            try {
+                const response = await fetch('http://localhost:3000/api/teacher/search', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ skills: ['JavaScript'] })
+                });
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showResult('teacherResult', `✅ Teacher search is working! Found ${data.length} students with JavaScript skills.`);
+                } else {
+                    showResult('teacherResult', '❌ Teacher search error: ' + data.message, false);
+                }
+            } catch (error) {
+                showResult('teacherResult', '❌ Teacher search failed. Error: ' + error.message, false);
+            }
+        }
+    </script>
+</body>
+</html>

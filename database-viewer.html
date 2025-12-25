@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Viewer - SkillConnect</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .controls {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .loading {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        tr:hover {
+            background: #e9ecef;
+        }
+        .skills {
+            max-width: 200px;
+            font-size: 12px;
+        }
+        .skill-tag {
+            display: inline-block;
+            background: #e7f3ff;
+            color: #0066cc;
+            padding: 2px 6px;
+            margin: 1px;
+            border-radius: 10px;
+            font-size: 11px;
+        }
+        .count {
+            font-size: 18px;
+            font-weight: bold;
+            color: #007bff;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .back-btn {
+            background: #6c757d;
+            margin-bottom: 20px;
+        }
+        .back-btn:hover {
+            background: #545b62;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="back-btn" onclick="window.location.href='index.html'">← Back to Homepage</button>
+        
+        <h1>📊 Database Viewer - All Students</h1>
+        
+        <div class="controls">
+            <button onclick="loadStudents()">🔄 Refresh Data</button>
+            <button onclick="window.location.href='test.html'">🧪 Go to Test Page</button>
+        </div>
+
+        <div id="studentCount" class="count"></div>
+        <div id="loadingMessage" class="loading">Click "Refresh Data" to load students from database</div>
+        <div id="studentsTable"></div>
+    </div>
+
+    <script>
+        async function loadStudents() {
+            document.getElementById('loadingMessage').innerHTML = '⏳ Loading students from database...';
+            document.getElementById('studentsTable').innerHTML = '';
+            document.getElementById('studentCount').innerHTML = '';
+
+            try {
+                const response = await fetch('http://localhost:3000/api/students/search?studentId=dummy');
+                
+                if (!response.ok) {
+                    throw new Error(`Server returned ${response.status}: ${response.statusText}`);
+                }
+                
+                const students = await response.json();
+                document.getElementById('loadingMessage').innerHTML = '';
+                
+                if (students.length === 0) {
+                    document.getElementById('studentsTable').innerHTML = '<p style="text-align:center;color:#666;padding:40px;">No students found in database. Run <code>node init-db.js</code> to add sample data.</p>';
+                    return;
+                }
+
+                document.getElementById('studentCount').innerHTML = `📈 Total Students in Database: ${students.length}`;
+                
+                // Create table
+                let tableHTML = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>College</th>
+                                <th>Year</th>
+                                <th>Branch</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Known Skills</th>
+                                <th>Learning Skills</th>
+                                <th>Registered</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                students.forEach((student, index) => {
+                    const knownSkillsHTML = student.knownSkills.map(skill => 
+                        `<span class="skill-tag">${skill}</span>`
+                    ).join('');
+                    
+                    const learningSkillsHTML = student.learningSkills.map(skill => 
+                        `<span class="skill-tag">${skill}</span>`
+                    ).join('');
+                    
+                    const createdDate = new Date(student.createdAt).toLocaleDateString();
+                    
+                    tableHTML += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td><strong>${student.name}</strong></td>
+                            <td>${student.college}</td>
+                            <td>${student.year}${getYearSuffix(student.year)} Year</td>
+                            <td>${student.branch}</td>
+                            <td><a href="mailto:${student.email}">${student.email}</a></td>
+                            <td><a href="tel:${student.phone}">${student.phone}</a></td>
+                            <td class="skills">${knownSkillsHTML}</td>
+                            <td class="skills">${learningSkillsHTML}</td>
+                            <td>${createdDate}</td>
+                        </tr>
+                    `;
+                });
+
+                tableHTML += `
+                        </tbody>
+                    </table>
+                `;
+
+                document.getElementById('studentsTable').innerHTML = tableHTML;
+
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('loadingMessage').innerHTML = `
+                    <div style="color: red; text-align: center; padding: 20px;">
+                        ❌ Error loading data: ${error.message}<br>
+                        <strong>Make sure:</strong><br>
+                        1. MongoDB is running (mongod)<br>
+                        2. Server is running (npm start)<br>
+                        3. Database has data (run: node init-db.js)
+                    </div>
+                `;
+            }
+        }
+
+        function getYearSuffix(year) {
+            if (year == 1) return 'st';
+            if (year == 2) return 'nd';
+            if (year == 3) return 'rd';
+            return 'th';
+        }
+
+        // Auto-load on page load
+        window.onload = function() {
+            loadStudents();
+        };
+    </script>
+</body>
+</html>

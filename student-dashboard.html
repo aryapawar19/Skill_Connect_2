@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - SkillConnect</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>Welcome, <span id="studentName"></span>!</h1>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </header>
+
+        <div class="dashboard-content">
+            <section class="info-section">
+                <h2>Find Your Peers</h2>
+                <p>Students who can help you learn or collaborate with you</p>
+            </section>
+
+            <section class="matches-section">
+                <h3>Students with Skills You're Learning</h3>
+                <div id="learningMatches" class="student-grid">
+                    <p class="loading">Loading...</p>
+                </div>
+            </section>
+
+            <section class="matches-section">
+                <h3>Students Learning Skills You Know</h3>
+                <div id="knownMatches" class="student-grid">
+                    <p class="loading">Loading...</p>
+                </div>
+            </section>
+
+            <section class="matches-section">
+                <h3>Students with Similar Interests</h3>
+                <div id="similarMatches" class="student-grid">
+                    <p class="loading">Loading...</p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="student-dashboard.js"></script>
+</body>
+</html>
