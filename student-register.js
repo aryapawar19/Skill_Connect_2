@@ -25,11 +25,10 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
         const data = await response.json();
 
         if (response.ok) {
-            alert('Registration successful!');
-            // Store student info in localStorage
-            localStorage.setItem('studentId', data.studentId);
-            // Redirect to dashboard
-            window.location.href = 'student-dashboard.html';
+            alert('Registration successful! Please login to access your account.');
+            // Don't store student info - they need to login
+            // Redirect to login page
+            window.location.href = 'student-login.html';
         } else {
             alert(data.message || 'Registration failed');
         }
